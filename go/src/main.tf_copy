@@ -1,0 +1,179 @@
+#*****************************************************************
+# terraform-provider-vcloud-director
+# Copyright (c) 2017 VMware, Inc. All Rights Reserved.
+# SPDX-License-Identifier: BSD-2-Clause
+#*****************************************************************
+
+
+provider "vcloud-director" {
+  #value come from ENV VARIALES
+}
+
+
+
+variable "SOURCE_VDC_NAME" { 
+
+ type    = "string"
+ default = "notdefined" 
+}
+
+variable "SOURCE_VAPP_NAME" { 
+
+ type    = "string"
+ default = "notdefined" 
+}
+
+resource "vcloud-director_catalog" "catalog2" {
+        name    = "testcata2"
+        description = "desc"
+        shared  = "true"
+
+}
+
+/*
+resource "vcloud-director_catalog_item_ova" "item2" {
+	item_name = "item2"
+	catalog_name= "${vcloud-director_catalog.catalog2.name}"
+	source_vdc_name="${var.SOURCE_VDC_NAME}"
+	source_vapp_name="${var.SOURCE_VAPP_NAME}"
+}
+
+*/
+
+
+
+
+variable "VAPP_NAME" { 
+
+ type    = "string"
+ default = "NOT DEFINED" 
+}
+
+variable "VAPP_TEMPLATE_NAME" { 
+
+ type    = "string"
+ default = "NOT DEFINED" 
+}
+
+variable "VAPP_CATALOG_NAME" { 
+
+ type    = "string"
+ default = "NOT DEFINED" 
+}
+
+variable "VAPP_VDC" { 
+
+ type    = "string"
+ default = "NOT DEFINED" 
+}
+
+variable "VAPP_NETWORK" { 
+
+ type    = "string"
+ default = "" 
+}
+
+variable "VAPP_IP_ALLOCATION_MODE" { 
+
+ type    = "string"
+ default = "dhcp" 
+}
+
+variable "VAPP_CPU" { 
+
+ type    = "string"
+ default = "-1" 
+}
+
+variable "VAPP_MEMORY" { 
+
+ type    = "string"
+ default = "-1" 
+}
+
+
+resource "vcloud-director_vapp" "vapp2" {
+        name  					= "vapp2"
+        template_name 			= "${var.VAPP_TEMPLATE_NAME}"
+        catalog_name  			= "${var.VAPP_CATALOG_NAME}"
+        vdc 					= "${var.VAPP_VDC}"
+        network 				= "${var.VAPP_NETWORK}"
+        ip_allocation_mode 		= "${var.VAPP_IP_ALLOCATION_MODE}"
+        cpu 					= "${var.VAPP_CPU}"
+        memory 					= "${var.VAPP_MEMORY}"
+        storage_profile			= "DS2_173"
+       
+
+}
+
+
+
+resource "vcloud-director_independent_disk" "IndependentDisk5" {
+        name    ="disk2"
+        size    = "200"
+        vdc = "OVD4"
+        #disk_id = "urn:vcloud:disk:4ac291f6-85c6-4ab9-a6b8-befe481ad847" 
+
+}
+
+resource "vcloud-director_catalog_item_ova" "item2" {
+    item_name = "captured_vapp2"
+    catalog_name= "${vcloud-director_catalog.catalog2.name}"  ## will force catalog as pre req
+    source_vdc_name="${vcloud-director_vapp.vapp2.vdc}"
+    source_vapp_name="${vcloud-director_vapp.vapp2.name}"    ## should force vapp creation beofre capturing
+}
+
+
+###FINAL RUN
+
+resource "vcloud-director_catalog" "source_catalog" {
+        name    = "source_catalog"
+        description = "source_catalog"
+        shared  = "true"
+
+}
+
+variable "OVA_PATH" { 
+
+ type    = "string"
+ default = "nullova" 
+}
+
+
+resource "vcloud-director_catalog_item_ova" "source_tinyova" {
+    item_name = "source_tinyova"
+    catalog_name= "${vcloud-director_catalog.source_catalog.name}"
+    source_file_path="${var.OVA_PATH}"
+}
+
+
+resource "vcloud-director_vapp" "tinyVapp" {
+        name                    = "tinyVapp"
+        template_name           = "${vcloud-director_catalog_item_ova.source_tinyova.item_name}"
+        catalog_name            = "${vcloud-director_catalog.source_catalog.name}"
+        vdc                     = "${var.VAPP_VDC}"
+        network                 = "${var.VAPP_NETWORK}"
+        ip_allocation_mode      = "${var.VAPP_IP_ALLOCATION_MODE}"
+        cpu                     = "${var.VAPP_CPU}"
+        memory                  = "${var.VAPP_MEMORY}"
+        storage_profile         = "DS2_173"
+       
+
+}
+
+
+resource "vcloud-director_catalog" "dest_catalog" {
+        name    = "dest_catalog"
+        description = "dest_catalog"
+        shared  = "true"
+
+}
+
+
+resource "vcloud-director_catalog_item_ova" "tinyVapp_capture" {
+    item_name = "tinyVapp_capture"
+    catalog_name= "${vcloud-director_catalog.dest_catalog.name}"
+    source_vdc_name="${vcloud-director_vapp.tinyVapp.vdc}"
+    source_vapp_name="${vcloud-director_vapp.tinyVapp.name}"
+}
+
