@@ -22,6 +22,7 @@ from vcd_client_ref import VCDClientRef
 
 import logging
 
+
 def vcd_login(context, lc):
     logging.info("__INIT__vcd_login [%s]", lc)
     login_path = ""
@@ -47,8 +48,9 @@ def vcd_login(context, lc):
 
         vref = VCDClientRef()
         vref.set_ref(client)
-        logging.debug('LOGIN VIA :[{0}] ARG :[{1}]'.format( login_path, str(lc)))
-        
+        logging.debug('LOGIN VIA :[{0}] ARG :[{1}]'.format(
+            login_path, str(lc)))
+
         return client
     except Exception as e:
         traceback.print_exc()

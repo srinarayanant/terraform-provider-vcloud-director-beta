@@ -1,22 +1,53 @@
+#!/bin/bash
 #*****************************************************************
 # terraform-provider-vcloud-director
 # Copyright (c) 2017 VMware, Inc. All Rights Reserved.
 # SPDX-License-Identifier: BSD-2-Clause
 #*****************************************************************
 
-export TF_ACC=1
-export TF_LOG=TRACE
+
+scripts[0]=test_media.sh
+scripts[1]=test_ova.sh
+#scripts[0]=test_disk.sh
+#scripts[0]=test_media.sh
+#scripts[0]=test_ova.sh
+#scripts[0]=test_token_login.sh
+#scripts[0]=test_vapp.sh
+
+for script in "${scripts[@]}"
+do
+  echo "${script}"
+  
+
+	sh ./$script
+	status=$?
+	echo $status
+	if [ $status -ne 0 ]
+		then
+		echo "FAILED ${script}"
+		exit $status
+	fi
+  # do something on $var
+done
 
 
-export TF_VAR_VCD_IP="10.112.83.27"
-export TF_VAR_VCD_USER="user1"
-export TF_VAR_VCD_PASSWORD="Admin!23"
-export TF_VAR_VCD_ORG="O1"
 
-export TF_VAR_CATALOG_DESCRIPTION="accc_ description1"
 
-export TF_VAR_OVA_PATH="/Users/srinarayana/vmws/tiny.ova"
 
-export TF_VAR_MEDIA_PATH="/Users/srinarayana/vmws/file1.txt"
+# catalog item test follows
 
-go test github.com/vmware/terraform-provider-vcloud-director/go/src/vcd/provider/ -v | grep --line-buffered -vE 'DEBUG|TRACE|terraform|^$'  
+
+
+
+
+
+
+#./test_capture_vapp.sh
+
+
+#vapp with params
+#./test_vapp.sh
+
+
+#independent disk
+#./test_disk.sh

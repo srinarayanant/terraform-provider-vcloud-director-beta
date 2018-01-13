@@ -25,3 +25,10 @@ export TF_VAR_OVA_PATH="/Users/srinarayana/vmws/tiny.ova"
 
 
 go test github.com/vmware/terraform-provider-vcloud-director/go/src/vcd/provider/ -v -run TestAccResourceCatalogItemOva | grep --line-buffered -vE 'TRACE|terraform|^$'
+status=${PIPESTATUS[0]} 
+
+
+#go test -v 2>&1 | go-junit-report > report.xml
+echo "test_ova.sh EXIT STATUS = " $status
+
+exit $status

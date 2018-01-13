@@ -107,6 +107,10 @@ class PyVcloudProviderServicer(
         capture_info.item_name = request.item_name
         capture_info.vdc_name = request.vdc_name
         capture_info.vapp_name = request.vapp_name
+
+        capture_info.description = request.description
+        capture_info.customize_on_instantiate = request.customize_on_instantiate
+        logging.debug("__LOG__CaptureVapp [%s]", capture_info)
         return catalog_item.capture_vapp(
             client=self.client, context=context, capture_info=capture_info)
 
@@ -143,6 +147,7 @@ class PyVcloudProviderServicer(
         vapp_info.memory = request.memory
         vapp_info.cpu = request.cpu
         vapp_info.storage_profile = request.storage_profile
+        logging.debug("__LOG__ [%s]", vapp_info)
         return vapp.create(self.client, context, vapp_info)
 
     def DeleteVApp(self, request, context):

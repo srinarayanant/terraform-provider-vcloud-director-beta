@@ -35,10 +35,10 @@ type CatalogItemOvaFromFile struct {
 type CatalogItemOvaFromVApp struct {
 	catalogItem CatalogItemBase
 
-	VappName              string
-	VdcName               string
-	Description           string
-	CustomizeOnInstantiat bool
+	VappName               string
+	VdcName                string
+	Description            string
+	CustomizeOnInstantiate bool
 }
 
 func (c CatalogItemOvaFromFile) create() error {
@@ -150,10 +150,11 @@ func (c CatalogItemOvaFromVApp) create() error {
 	}
 
 	captureInfo := proto.CaptureVAppInfo{
-		CatalogName: catalogName,
-		ItemName:    itemName,
-		VappName:    c.VappName,
-		VdcName:     c.VdcName,
+		CatalogName:            catalogName,
+		ItemName:               itemName,
+		VappName:               c.VappName,
+		VdcName:                c.VdcName,
+		CustomizeOnInstantiate: c.CustomizeOnInstantiate,
 	}
 
 	resp, errp := provider.CaptureVapp(captureInfo)
@@ -190,6 +191,7 @@ func buildCatalogItem(d *schema.ResourceData, m interface{}) CatalogItem {
 	source_file_path := d.Get("source_file_path").(string)
 	source_vapp_name := d.Get("source_vapp_name").(string)
 	source_vdc_name := d.Get("source_vdc_name").(string)
+	customize_on_instantiate := d.Get("customize_on_instantiate").(bool)
 	logging.Plog(fmt.Sprintf("buildCatalogItem [%v] [%v] [%v] [%v] [%v]", itemName, catalogName, source_file_path, source_vapp_name, source_vdc_name))
 	r := CommonResource{d: d, p: getProvider(m)}
 
@@ -197,9 +199,10 @@ func buildCatalogItem(d *schema.ResourceData, m interface{}) CatalogItem {
 	if len(source_file_path) == 0 {
 		logging.Plog("create from VAPP")
 		c := CatalogItemOvaFromVApp{
-			catalogItem: cb,
-			VappName:    source_vapp_name,
-			VdcName:     source_vdc_name,
+			catalogItem:            cb,
+			VappName:               source_vapp_name,
+			VdcName:                source_vdc_name,
+			CustomizeOnInstantiate: customize_on_instantiate,
 		}
 		return c
 

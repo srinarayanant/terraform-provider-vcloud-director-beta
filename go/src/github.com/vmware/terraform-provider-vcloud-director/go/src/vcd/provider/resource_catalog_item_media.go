@@ -31,7 +31,7 @@ func resourceCatalogItemMedia() *schema.Resource {
 				Required: true,
 				ForceNew: false,
 			},
-			"file_path": &schema.Schema{
+			"source_file_path": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
@@ -43,14 +43,14 @@ func resourceCatalogItemMedia() *schema.Resource {
 func getMediaId(d *schema.ResourceData) string {
 
 	itemName := d.Get("item_name").(string)
-	filePath := d.Get("file_path").(string)
+	filePath := d.Get("source_file_path").(string)
 	catalogName := d.Get("catalog_name").(string)
 	return catalogName + "_" + itemName + "_" + filePath
 }
 
 func getCatalogUploadMediaInfo(d *schema.ResourceData) proto.CatalogUploadMediaInfo {
 	itemName := d.Get("item_name").(string)
-	filePath := d.Get("file_path").(string)
+	filePath := d.Get("source_file_path").(string)
 	catalogName := d.Get("catalog_name").(string)
 
 	p := proto.CatalogUploadMediaInfo{CatalogName: catalogName,

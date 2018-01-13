@@ -51,6 +51,7 @@ func resourceIndependentDisk() *schema.Resource {
 				Optional: true,
 				ForceNew: false,
 			},
+			
 		},
 	}
 }
@@ -83,7 +84,11 @@ func resourceIndependentDiskCreate(d *schema.ResourceData, m interface{}) error 
 		return nil
 	}
 
-	creatDiskInfo := proto.CreateDiskInfo{Name: cname, Size: size, StorageProfile: storage_profile, Description: description, Vdc: vdc}
+	creatDiskInfo := proto.CreateDiskInfo{Name: cname,
+		Size:           size,
+		StorageProfile: storage_profile,
+		Description:    description,
+		Vdc:            vdc}
 
 	logging.Plog(fmt.Sprintf("__LOG__calling create IndependentDisk  %+v ", creatDiskInfo))
 	res, err := provider.Create(creatDiskInfo)

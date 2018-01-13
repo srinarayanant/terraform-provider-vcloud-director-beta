@@ -175,13 +175,13 @@ def delete(client, catalog_name, item_name):
 
 
 def capture_vapp(client, context, capture_info):
-    logging.debug("__INIT__capture_vapp %s", capture_info)
+    logging.debug("__INIT__capture_vapp [%s]", capture_info)
     vapp_name = capture_info.vapp_name
     vdc_name = capture_info.vdc_name
     catalog_name = capture_info.catalog_name
     item_name = capture_info.item_name
-    desc = ""
-    customize_on_instantiate = False
+    desc = capture_info.description
+    customize_on_instantiate = capture_info.customize_on_instantiate
 
     result = catalog_item_pb2.CaptureVAppResult()
     try:

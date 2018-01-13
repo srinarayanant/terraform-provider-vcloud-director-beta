@@ -97,6 +97,7 @@ provider "vcloud-director" {
 resource "vcloud-director_independent_disk" "IndependentDisk1" {
         name    ="${var.DISK_NAME}"
         size 	= "100"
+        VDC="OVD4"
 
 }
 

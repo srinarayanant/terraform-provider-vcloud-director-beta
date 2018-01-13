@@ -31,7 +31,8 @@ class IndependentDiskServicer(disk_pb2_grpc.IndependentDiskServicer):
             name=request.name,
             size=request.size,
             vdc=request.vdc,
-            description=request.description)
+            description=request.description,
+        )
         res = d.create()
 
         logging.info("__DONOE_Create[disk_plugin]")
@@ -104,7 +105,8 @@ class Disk:
             self.name,
             size=self.size,
             storage_profile_name=self.storage_profile,
-            description=self.description)
+            description=self.description,
+            customize_on_instantiate=self.customize_on_instantiate)
         logging.info('DONE create_disk id  [%s]', result.get('id'))
 
         task = self.client.get_task_monitor().wait_for_status(

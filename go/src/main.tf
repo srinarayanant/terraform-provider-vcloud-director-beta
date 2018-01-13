@@ -93,22 +93,6 @@ resource "vcloud-director_catalog_item_ova" "tinyVapp_capture" {
     catalog_name= "${vcloud-director_catalog.dest_catalog.name}"
     source_vdc_name="${vcloud-director_vapp.tinyVapp.vdc}"
     source_vapp_name="${vcloud-director_vapp.tinyVapp.name}"
+    customize_on_instantiate=true
 }
 
-
-resource "vcloud-director_independent_disk" "IndependentDisk01" {
-        name    ="IndependentDisk01"
-        size    = "200"
-        vdc = "OVD4"
-        #disk_id = "urn:vcloud:disk:4ac291f6-85c6-4ab9-a6b8-befe481ad847" 
-
-}
-
-
-resource "vcloud-director_independent_disk" "IndependentDisk02" {
-        name    ="IndependentDisk01"
-        size    = "200"
-        vdc = "OVD4"
-        disk_id = "EMPTY" 
-
-}

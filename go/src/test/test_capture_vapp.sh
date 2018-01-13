@@ -25,5 +25,6 @@ export TF_VAR_CATALOG_DESCRIPTION="accc_ description1" #DESTINATION
 export TF_VAR_SOURCE_VAPP_NAME="vappacc8" #VAPP THAT IS CAPTURED
 export TF_VAR_SOURCE_VDC_NAME="OVD2" #VDC OF VAPP THAT IS CAPTURED
 
+echo ' TEST CAPTURE VAPP'
 
 go test github.com/vmware/terraform-provider-vcloud-director/go/src/vcd/provider/ -v -run TestAccResourceCatalogItemCaptureVapp | grep --line-buffered -vE 'TRACE|terraform|^$'

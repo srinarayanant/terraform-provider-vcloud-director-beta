@@ -31,6 +31,8 @@ message CreateDiskInfo{
 
         string vdc=7;
         string disk_id=8;
+
+      
         
 }
 

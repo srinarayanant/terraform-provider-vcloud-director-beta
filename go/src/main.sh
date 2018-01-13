@@ -11,18 +11,18 @@ export VCD_ALLOW_UNVERIFIED_SSL=true
 export VCD_IP="10.112.83.27"
 
 
-# export VCD_USER="user1"
-# export VCD_PASSWORD="Admin!23"
+ export VCD_USER="user1"
+export VCD_PASSWORD="Admin!23"
 
 
- export VCD_USER=""
- export VCD_PASSWORD=""
+ #export VCD_USER=""
+ #export VCD_PASSWORD=""
 
 export VCD_ORG="O1"
 
 export VCD_USE_VCD_CLI_PROFILE=""
 
-export VCD_USE_VCD_CLI_PROFILE=true
+#export VCD_USE_VCD_CLI_PROFILE=true
 
 export TF_VAR_VAPP_CATALOG_NAME="c1"
 export TF_VAR_VAPP_VDC="OVD4"

@@ -98,36 +98,10 @@ variable "MEDIA_PATH" {
  default = "nonepath" 
 }
 
-variable "VCD_IP" { 
-
- type    = "string"
- default = "notdefinedip" 
-}
-
-variable "VCD_USER" { 
-
- type    = "string"
- default = "notdefineduser" 
-}
-variable "VCD_PASSWORD" { 
-
- type    = "string"
- default = "notdefinedpass" 
-}
-variable "VCD_ORG" { 
-
- type    = "string"
- default = "notdefinedorg" 
-}
-
-
 provider "vcloud-director" {
-  user                 = "${var.VCD_USER}"
-  password             = "${var.VCD_PASSWORD}"
-  org                  = "${var.VCD_ORG}"
-  ip                   = "${var.VCD_IP}"
-  allow_unverified_ssl = "true"
+  #value come from ENV VARIALES
 }
+
 
 
 
@@ -142,7 +116,7 @@ resource "vcloud-director_catalog_item_media" "item1" {
 	item_name = "item1"
 	catalog_name= "${vcloud-director_catalog.catalog1.name}"
 
-	file_path="${var.MEDIA_PATH}"
+	source_file_path="${var.MEDIA_PATH}"
 }
 `
 

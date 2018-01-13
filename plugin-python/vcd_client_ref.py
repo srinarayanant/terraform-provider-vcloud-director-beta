@@ -7,5 +7,3 @@ class VCDClientRef:
 
     def get_ref(self):
         return VCDClientRef.instance
-
-
